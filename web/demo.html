@@ -1,0 +1,59 @@
+<!doctype html>
+<html ng-app="excelApp">
+<head>
+
+<title>JS-XLSX Live Demo</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+<script src="http://oss.sheetjs.com/assets/vendor/jquery.min.js"></script>
+<link type="text/css" rel="stylesheet" href="css/handsontable.full.min.css">
+<link rel="stylesheet" href="css/demo.css"/>	
+<script src="http://oss.sheetjs.com/js-xlsx/xlsx.core.min.js"></script>
+<script src="http://oss.sheetjs.com/assets/js/cpexcel.js"></script>
+<script src="http://oss.sheetjs.com/js-xlsx/shim.js"></script>
+<!-- this one cause issue with XSLS.write() <script src="http://oss.sheetjs.com/js-xlsx/jszip.js"></script> -->
+<script src="http://sheetjs.com/demos/Blob.js"></script>
+<script src="http://sheetjs.com/demos/FileSaver.js"></script>
+<script src="js/xlsx.js"></script> 
+<script src="js/xls.js"></script>
+<script src="http://oss.sheetjs.com/js-xlsx/ods.js"></script>
+
+<script src="js/handsontable.full.js"></script>
+<script src="js/ruleJS.all.full.js"></script>
+<script src="js/handsontable.formula.js"></script>
+<script src ="js/app.js"></script>
+<script src ="js/service.js"></script>
+<script src ="js/controller.js"></script>
+</head>
+<body>
+<h3>Upload file from your PC</h3> 
+
+<div ng-controller="ExcelController as excelController">
+
+<input ng-model="xlfile" ng-click="excelController.onClick(this)" onchange="angular.element(this).scope().uploadFile(this)"
+       type="file" name="xlfile" id="xlf" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,  application/vnd.ms-excel"/>
+<h3>Or drag and drop it below</h3>
+<div  id="filedrag">or drop files here</div>
+
+<button ng-click="excelController.download()">download</button>
+
+<div>
+<div id="sheets" >
+<ul>
+<!--  li ng-repeat="sheet in names track by $index" bn-log-dom-creation="With">
+	<span>{{sheet}}</span>
+</li-->
+</ul>
+</div>
+
+</div>
+
+<div id="hot" style="overflow: scroll" class="handsontable"></div>
+</br>
+</br>
+<h4>display formulas</h4>
+<div id="hot2" style="overflow: scroll" class="handsontable"></div>
+</div>
+<pre id="out"></pre>
+
+</body>
+</html>
