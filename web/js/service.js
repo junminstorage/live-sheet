@@ -8,6 +8,8 @@ app.service('ExcelService', function(){
 	var workSheets = {};
 	//the original workbook
 	var wb;
+	//local storage id
+	this.cacheId = null;
 	
 	function handleFile(files, cb){
 		if(!files)
@@ -28,6 +30,29 @@ app.service('ExcelService', function(){
 	        cb();
 	    }
 	}
+	
+	function makeid(){
+	    var text = "";
+	    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	    for( var i=0; i < 5; i++ )
+	        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	    return text;
+	}
+	
+	function cacheSave(id) {
+		this.cacheId = id;
+		localStorage.setItem(this.cacheId, JSON.stringify(wb));
+	}
+	
+	function cacheGet(id) {
+		this.cacheId = id;
+		wb = JSON.parse(localStorage.getItem(id));
+        names = wb.SheetNames;
+        workSheets = to_jsonArray(wb);
+	}
+	
 	
 	function getWorkbookAsArrayBuffer(){
 		var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
@@ -98,6 +123,8 @@ app.service('ExcelService', function(){
 	
 	return {
 		handleFile: handleFile,
+		cacheSave : cacheSave,
+		cacheGet : cacheGet,
 		getSheetNames : function(){return names;},
 		getSheets : function(){return workSheets;},
 		getWorkbook : function(){return wb;},
